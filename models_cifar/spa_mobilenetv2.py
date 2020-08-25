@@ -7,7 +7,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 
-__all__ =['SEMobileNetV2']
+__all__ =['SPAMobileNetV2']
 
 
 class SPALayer(nn.Module):
