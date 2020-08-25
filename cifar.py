@@ -1,7 +1,7 @@
 '''Train CIFAR with PyTorch.
 
 e.g.
-    python3 cifar.py --netName=PreActResNet18 --cifar=10 --bs=512
+    python3 cifar.py --netName=PreActResNet18 --cifar=100 --bs=512
 '''
 from __future__ import print_function
 
@@ -27,7 +27,7 @@ model_names = sorted(name for name in models.__dict__
 print(model_names)
 
 os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3,4,5,6,7"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r',default=False, action='store_true', help='resume from checkpoint')

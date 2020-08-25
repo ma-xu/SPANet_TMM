@@ -14,30 +14,30 @@ class SPALayer(nn.Module):
         self.avg_pool1 = nn.AdaptiveAvgPool2d(1)
         self.avg_pool2 = nn.AdaptiveAvgPool2d(2)
         self.avg_pool4 = nn.AdaptiveAvgPool2d(4)
-        self.weight = Parameter(torch.zeros(1))
-        self.bias = Parameter(torch.ones(1))
+        self.weight = self.scale = Parameter(torch.ones(1,3,1,1,1))
+        self.transform = nn.Sequential(
+            nn.Conv2d(channel, channel//reduction,1),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(channel//reduction, channel, 1),
+            nn.Sigmoid()
+        )
 
     def forward(self, x):
         b, c,_, _ = x.size()
         y1 = self.avg_pool1(x)
         y2 = self.avg_pool2(x)
         y4 = self.avg_pool4(x)
-        y = (y4+y1+F.interpolate(y2,scale_factor=2))/3.0 #[b,c,4,4]
-        y_mean = torch.mean(y,1,keepdim=True)
-        y_mean = y_mean.view(b,1,16,1)
-        diff = -abs(y_mean - y_mean.mean(dim=2,keepdim=True))
-        diff = F.softmax(diff,dim=2)
-        y_new = y.view(b,1,c,16)
-        relation = torch.matmul(y_new,diff)
-        relation = relation.view(b,c)
-
-        relation_diff = relation - relation.mean(dim=1,keepdim=True)
-        std = relation_diff.std(dim=1,keepdim=True)+ 1e-5
-        relation_diff = relation_diff/std
-        relation_diff = relation_diff.view(b,c,1,1)
-        relation_diff = relation_diff*self.weight+self.bias
-        relation_diff = torch.sigmoid(relation_diff)
-        return x*relation_diff
+        y = torch.cat(
+            [y4.unsqueeze(dim=1),
+             F.interpolate(y2,scale_factor=2).unsqueeze(dim=1),
+             F.interpolate(y1,scale_factor=4).unsqueeze(dim=1)],
+            dim=1
+        )
+        y = (y*self.weight).sum(dim=1,keepdim=False)
+        y = self.transform(y)
+        y = F.interpolate(y,size = x.size()[2:])
+        y = y.expand_as(x)
+        return x*y
 
 
 
