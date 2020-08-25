@@ -14,7 +14,7 @@ class SPALayer(nn.Module):
         self.avg_pool1 = nn.AdaptiveAvgPool2d(1)
         self.avg_pool2 = nn.AdaptiveAvgPool2d(2)
         self.avg_pool4 = nn.AdaptiveAvgPool2d(4)
-        self.weight = self.scale = Parameter(torch.ones(1,3,1,1,1))
+        self.weight = Parameter(torch.ones(1,3,1,1,1))
         self.transform = nn.Sequential(
             nn.Conv2d(channel, channel//reduction,1),
             nn.ReLU(inplace=True),
@@ -36,7 +36,7 @@ class SPALayer(nn.Module):
         y = (y*self.weight).sum(dim=1,keepdim=False)
         y = self.transform(y)
         y = F.interpolate(y,size = x.size()[2:])
-        y = y.expand_as(x)
+
         return x*y
 
 
