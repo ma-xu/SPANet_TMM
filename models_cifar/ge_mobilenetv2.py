@@ -19,6 +19,7 @@ class GEBlock(nn.Module):
     def forward(self, x):
         map = self.sigmoid(self.gap(x))
         return x * map
+
 class Block(nn.Module):
     '''expand + depthwise + pointwise'''
     def __init__(self, in_planes, out_planes, expansion, stride):

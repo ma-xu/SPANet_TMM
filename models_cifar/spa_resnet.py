@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 
-__all__ = ['SPAResNet18', 'SPAResNet34', 'SPAResNet50', 'SPAResNet101', 'SPAResNet152']
+__all__ = ['SPAResNet18']
 
 class SPALayer(nn.Module):
     def __init__(self, channel, reduction=16):
@@ -156,4 +156,4 @@ def demo():
     print(y.size())
 
 
-demo()
+# demo()
