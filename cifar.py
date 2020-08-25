@@ -108,7 +108,7 @@ optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5
 def train(epoch):
     adjust_learning_rate(optimizer, epoch, args.lr)
     print('\nEpoch: %d   Learning rate: %f' % (epoch, optimizer.param_groups[0]['lr']))
-    print("\nAllocated GPU memory:", torch.cuda.memory_allocated())
+    # print("\nAllocated GPU memory:", torch.cuda.memory_allocated())
     net.train()
     train_loss = 0
     correct = 0
