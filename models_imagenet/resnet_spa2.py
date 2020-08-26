@@ -16,7 +16,7 @@ class SPALayer(nn.Module):
     def __init__(self,channel, reduction=16):
         super(SPALayer, self).__init__()
         self.avg_pool1 = nn.AdaptiveAvgPool2d(1)
-        self.avg_pool3 = nn.AdaptiveAvgPool2d(3)
+        self.avg_pool4 = nn.AdaptiveAvgPool2d(4)
         self.avg_pool7 = nn.AdaptiveAvgPool2d(7)
         self.weight = Parameter(torch.ones(1, 3, 1, 1, 1))
         self.transform = nn.Sequential(
@@ -30,7 +30,7 @@ class SPALayer(nn.Module):
     def forward(self, x):
         b, c, _, _ = x.size()
         y1 = self.avg_pool1(x)
-        y2 = self.avg_pool3(x)
+        y2 = self.avg_pool4(x)
         y4 = self.avg_pool7(x)
         y = torch.cat(
             [y4.unsqueeze(dim=1),
