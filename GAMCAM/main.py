@@ -20,7 +20,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torchvision import transforms
 import sys
-sys.path.append('../../')
+sys.path.append('../')
 import models_imagenet as models
 
 model_names = sorted(name for name in models.__dict__
