@@ -11,6 +11,8 @@ from .old_mobilenetv2 import *
 from .spa2_mobilenetv2 import *
 from .spa3_mobilenetv2 import *
 from .spa4_mobilenetv2 import *
+from .spa_b_mobilenetv2 import *
+from .spa_c_mobilenetv2 import *
 
 
 # ResNeXt
@@ -23,10 +25,13 @@ from .ge_resnext import *
 from .vgg16 import *
 from .se_vgg16 import *
 from .ge_vgg16 import *
-
+from .spa_vgg16 import *
 
 # DenseNet
 from .old_densenet import *
 from .se_densenet import *
 from .ge_densenet import *
+from .spa_densenet import *
+from .spa_b_densenet import *
+from .spa_c_densenet import *
 
