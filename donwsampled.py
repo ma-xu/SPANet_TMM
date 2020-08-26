@@ -27,7 +27,7 @@ model_names = sorted(name for name in models.__dict__
 print(model_names)
 
 os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 parser = argparse.ArgumentParser(description='PyTorch Imagenet32 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r',default=False, action='store_true', help='resume from checkpoint')
@@ -100,7 +100,7 @@ optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5
 
 # Training
 def train(epoch):
-    adjust_learning_rate(optimizer, epoch, args.lr)
+    adjust_learning_rate2(optimizer, epoch, args.lr)
     print('\nEpoch: %d   Learning rate: %f' % (epoch, optimizer.param_groups[0]['lr']))
     print("\nAllocated GPU memory:", torch.cuda.memory_allocated())
     net.train()
