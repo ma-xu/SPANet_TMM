@@ -40,7 +40,7 @@ parser.add_argument('--es', default=100, type=int, help='epoch size')
 parser.add_argument('--imagenet', default=1000, type=int, help='dataset classes number')
 parser.add_argument('--datapath', default='data/ImageNet32', type=str, help='dataset path')
 # For parallel
-parser.add_argument('-p', '--print-freq', default=10, type=int,
+parser.add_argument('-p', '--print-freq', default=100, type=int,
                     metavar='N', help='print frequency (default: 10)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
@@ -160,7 +160,7 @@ def main_worker(gpu, ngpus_per_node, args):
                                                     and args.rank % ngpus_per_node == 0):
             save_checkpoint({
                 'epoch': epoch + 1,
-                'arch': args.arch,
+                'arch': args.netName,
                 'state_dict': model.state_dict(),
                 'best_acc1': best_acc1,
                 'optimizer': optimizer.state_dict(),
