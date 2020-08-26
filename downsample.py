@@ -32,7 +32,6 @@ os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
 # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 parser = argparse.ArgumentParser(description='PyTorch Imagenet32 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
-parser.add_argument('--resume', '-r',default=False, action='store_true', help='resume from checkpoint')
 parser.add_argument('--netName', default='PreActResNet18', type=str, help='choosing network')
 parser.add_argument('-b', '--batch-size', default=1024, type=int,
                     metavar='N')
