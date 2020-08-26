@@ -137,7 +137,7 @@ def main_worker(gpu, ngpus_per_node, args):
 
     if not args.multiprocessing_distributed or (args.multiprocessing_distributed
                                                 and args.rank % ngpus_per_node == 0):
-        logger = Logger('./record/ImageNet32_'+args.netName+'log.txt', title='ImageNet')
+        logger = Logger('./records/ImageNet32_'+args.netName+'log.txt', title='ImageNet')
         logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.', 'Valid Top5.'])
 
     for epoch in range(0, 0 + args.es):
