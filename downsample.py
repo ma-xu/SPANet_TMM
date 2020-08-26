@@ -36,6 +36,10 @@ parser.add_argument('--resume', '-r',default=False, action='store_true', help='r
 parser.add_argument('--netName', default='PreActResNet18', type=str, help='choosing network')
 parser.add_argument('-b', '--batch-size', default=1024, type=int,
                     metavar='N')
+parser.add_argument('--epochs', default=100, type=int, metavar='N',
+                    help='number of total epochs to run')
+parser.add_argument('--start-epoch', default=0, type=int, metavar='N',
+                    help='manual epoch number (useful on restarts)')
 parser.add_argument('--es', default=100, type=int, help='epoch size')
 parser.add_argument('--imagenet', default=1000, type=int, help='dataset classes number')
 parser.add_argument('--datapath', default='data/ImageNet32', type=str, help='dataset path')
@@ -57,6 +61,8 @@ parser.add_argument('--multiprocessing-distributed', default=True, action='store
                          'N processes per node, which has N GPUs. This is the '
                          'fastest way to use PyTorch for either single node or '
                          'multi node data parallel training')
+parser.add_argument('--resume', default='', type=str, metavar='PATH',
+                    help='path to latest checkpoint (default: none)')
 
 best_acc1 = 0
 
@@ -112,6 +118,28 @@ def main_worker(gpu, ngpus_per_node, args):
     criterion = nn.CrossEntropyLoss().cuda(args.gpu)
     optimizer = torch.optim.SGD(model.parameters(), args.lr, momentum=0.9, weight_decay=5e-4)
 
+    # optionally resume from a checkpoint
+    if args.resume:
+        if os.path.isfile(args.resume):
+            print("=> loading checkpoint '{}'".format(args.resume))
+            if args.gpu is None:
+                checkpoint = torch.load(args.resume)
+            else:
+                # Map model to be loaded to specified single gpu.
+                loc = 'cuda:{}'.format(args.gpu)
+                checkpoint = torch.load(args.resume, map_location=loc)
+            args.start_epoch = checkpoint['epoch']
+            best_acc1 = checkpoint['best_acc1']
+            if args.gpu is not None:
+                # best_acc1 may be from a checkpoint from a different GPU
+                best_acc1 = best_acc1.to(args.gpu)
+            model.load_state_dict(checkpoint['state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            print("=> loaded checkpoint '{}' (epoch {})"
+                  .format(args.resume, checkpoint['epoch']))
+        else:
+            print("=> no checkpoint found at '{}'".format(args.resume))
+
     cudnn.benchmark = True
 
     transform_train = transforms.Compose([
@@ -143,7 +171,7 @@ def main_worker(gpu, ngpus_per_node, args):
         logger = Logger('./records/ImageNet32_'+args.netName+'log.txt', title='ImageNet')
         logger.set_names(['Learning Rate', 'Train Loss', 'Valid Loss', 'Train Acc.', 'Valid Acc.', 'Valid Top5.'])
 
-    for epoch in range(0, 0 + args.es):
+    for epoch in range(args.start_epoch, args.epochs):
         if args.distributed:
             train_sampler.set_epoch(epoch)
         adjust_learning_rate2(optimizer, epoch, args.lr)
