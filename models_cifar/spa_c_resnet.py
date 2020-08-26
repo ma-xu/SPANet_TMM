@@ -6,24 +6,33 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 
-__all__ = ['SPAResNet18']
+__all__ = ['SPACResNet18']
 
-class SPALayer(nn.Module):
-    def __init__(self, channel, reduction=16):
-        super(SPALayer, self).__init__()
+class SPACLayer(nn.Module):
+    def __init__(self, inchannel,channel, reduction=16):
+        super(SPACLayer, self).__init__()
         self.avg_pool1 = nn.AdaptiveAvgPool2d(1)
         self.avg_pool2 = nn.AdaptiveAvgPool2d(2)
         self.avg_pool4 = nn.AdaptiveAvgPool2d(4)
         self.weight = Parameter(torch.ones(1,3,1,1,1))
+        if inchannel !=channel:
+            self.matcher = nn.Sequential(
+                nn.Conv2d(inchannel, channel//reduction,1,bias=False),
+                nn.BatchNorm2d(channel//reduction),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(channel//reduction, channel, 1,bias=False),
+                nn.BatchNorm2d(channel)
+            )
         self.transform = nn.Sequential(
-            nn.Conv2d(channel, channel // reduction, 1, bias=False),
-            nn.BatchNorm2d(channel // reduction),
+            nn.Conv2d(channel, channel//reduction,1,bias=False),
+            nn.BatchNorm2d(channel//reduction),
             nn.ReLU(inplace=True),
-            nn.Conv2d(channel // reduction, channel, 1, bias=False),
+            nn.Conv2d(channel//reduction, channel, 1,bias=False),
             nn.Sigmoid()
         )
 
     def forward(self, x):
+        x = self.matcher(x) if hasattr(self, 'matcher') else x
         b, c,_, _ = x.size()
         y1 = self.avg_pool1(x)
         y2 = self.avg_pool2(x)
@@ -36,10 +45,8 @@ class SPALayer(nn.Module):
         )
         y = (y*self.weight).sum(dim=1,keepdim=False)
         y = self.transform(y)
-        y = F.interpolate(y,size = x.size()[2:])
 
-        return x*y
-
+        return y
 
 
 class PreActBlock(nn.Module):
@@ -52,18 +59,19 @@ class PreActBlock(nn.Module):
         self.conv1 = nn.Conv2d(in_planes,planes,kernel_size=3,stride=stride,padding=1,bias=False)
         self.bn2 = nn.BatchNorm2d(planes)
         self.conv2 = nn.Conv2d(planes,planes,kernel_size=3,stride=1,padding=1,bias=False)
-        self.spa = SPALayer(planes,reduction)
+        self.spa = SPACLayer(in_planes,planes)
         if stride !=1 or in_planes!=self.expansion*planes:
             self.shortcut = nn.Sequential(
                 nn.Conv2d(in_planes,self.expansion*planes,kernel_size=1,stride=stride,bias=False)
             )
 
     def forward(self, x):
+        spa = self.spa(x)
         out = F.relu(self.bn1(x))
         shortcut = self.shortcut(out) if hasattr(self,'shortcut') else x
         out = self.conv1(out)
         out = self.conv2(F.relu(self.bn2(out)))
-        out = self.spa(out)
+        out = out * F.interpolate(spa, size=out.size()[2:])
         out += shortcut
         return out
 
@@ -80,7 +88,7 @@ class PreActBootleneck(nn.Module):
         self.conv2 = nn.Conv2d(planes,planes,kernel_size=3,stride=stride,padding=1,bias=False)
         self.bn3 = nn.BatchNorm2d(planes)
         self.conv3 = nn.Conv2d(planes,self.expansion*planes,kernel_size=1,bias=False)
-        self.spa = SPALayer(self.expansion*planes, reduction)
+        self.spa = SPACLayer(in_planes, self.expansion * planes)
 
         if stride != 1 or in_planes != self.expansion * planes:
             self.shortcut = nn.Sequential(
@@ -88,12 +96,13 @@ class PreActBootleneck(nn.Module):
             )
 
     def forward(self, x):
+        spa = self.spa(x)
         out = F.relu(self.bn1(x))
         shortcut = self.shortcut(out) if hasattr(self,'shortcut') else x
         out = self.conv1(out)
         out = self.conv2(F.relu(self.bn2(out)))
         out = self.conv3(F.relu(self.bn3(out)))
-        out = self.spa(out)
+        out = out * F.interpolate(spa, size=out.size()[2:])
         out +=shortcut
         return out
 
@@ -130,29 +139,29 @@ class ResNet(nn.Module):
         return out
 
 
-def SPAResNet18(num_classes=10):
+def SPACResNet18(num_classes=10):
     return ResNet(PreActBlock, [2,2,2,2],num_classes)
 
 
-def SPAResNet34(num_classes=10):
+def SPACResNet34(num_classes=10):
     return ResNet(PreActBlock, [3,4,6,3],num_classes)
 
 
-def SPAResNet50(num_classes=10):
+def SPACResNet50(num_classes=10):
     return ResNet(PreActBootleneck, [3,4,6,3],num_classes)
 
 
-def SPAResNet101(num_classes=10):
+def SPACResNet101(num_classes=10):
     return ResNet(PreActBootleneck, [3,4,23,3],num_classes)
 
 
-def SPAResNet152(num_classes=10):
+def SPACResNet152(num_classes=10):
     return ResNet(PreActBootleneck, [3,8,36,3],num_classes)
 
 
 
 def demo():
-    net = SPAResNet18()
+    net = SPACResNet18()
     y = net((torch.randn(1,3,32,32)))
     print(y.size())
 

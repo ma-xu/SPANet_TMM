@@ -2,6 +2,8 @@
 from .se_resnet import *
 from .spa_resnet import *
 from .ge_resnet import *
+from .spa_b_resnet import *
+from .spa_c_resnet import *
 
 # MobileNet_v2
 from .se_mobilenetv2 import *
