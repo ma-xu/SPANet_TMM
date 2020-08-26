@@ -1,4 +1,5 @@
 # ResNet (PreAct)
+from .old_resnet import *
 from .se_resnet import *
 from .spa_resnet import *
 from .ge_resnet import *

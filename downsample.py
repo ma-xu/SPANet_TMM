@@ -43,7 +43,7 @@ parser.add_argument('--es', default=100, type=int, help='epoch size')
 parser.add_argument('--imagenet', default=1000, type=int, help='dataset classes number')
 parser.add_argument('--datapath', default='data/ImageNet32', type=str, help='dataset path')
 # For parallel
-parser.add_argument('-p', '--print-freq', default=100, type=int,
+parser.add_argument('-p', '--print-freq', default=400, type=int,
                     metavar='N', help='print frequency (default: 10)')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
@@ -51,7 +51,7 @@ parser.add_argument('--world-size', default=1, type=int,
                     help='number of nodes for distributed training')
 parser.add_argument('--rank', default=0, type=int,
                     help='node rank for distributed training')
-parser.add_argument('--dist-url', default='tcp://127.0.0.1:23456', type=str,
+parser.add_argument('--dist-url', default='tcp://129.120.60.207:23456', type=str,
                     help='url used to set up distributed training')
 parser.add_argument('--dist-backend', default='nccl', type=str,
                     help='distributed backend')
