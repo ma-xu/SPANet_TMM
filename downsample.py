@@ -129,7 +129,8 @@ def main_worker(gpu, ngpus_per_node, args):
     trainset = ImageNetDownSample(root=args.datapath, train=True, transform=transform_train)
     train_sampler = torch.utils.data.distributed.DistributedSampler(trainset)
     train_loader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size,
-                                              shuffle=True, num_workers=args.workers,pin_memory=True,
+                                              shuffle=(train_sampler is None),
+                                              num_workers=args.workers,pin_memory=True,
                                               sampler=train_sampler)
 
     testset = ImageNetDownSample(root=args.datapath, train=False, transform=transform_test)
