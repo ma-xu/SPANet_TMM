@@ -37,4 +37,4 @@ for k, v in check_point['state_dict'].items():
 
 for k, v in new_check_point.items():
     if 'spa.weight' in k:
-        print(abs(v)/(abs(v).sum(dim=0,keepdim=False)))
+        print(abs(float(v))/(abs(float(v)).sum(dim=0,keepdim=False)))
