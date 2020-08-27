@@ -29,6 +29,8 @@ for k, v in check_point['state_dict'].items():
         name = k[9:]
     else:
         name = k[7:]
+    if 'spa.weight' in name:
+        print(v)
     new_check_point[name] = v
 
 
