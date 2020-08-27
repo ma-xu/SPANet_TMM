@@ -30,7 +30,7 @@ for k, v in check_point['state_dict'].items():
     else:
         name = k[7:]
     if 'spa.weight' in name:
-        print(v.view(3).data)
+        print(v.view(3).item())
     new_check_point[name] = v
 
 
