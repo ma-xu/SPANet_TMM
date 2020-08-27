@@ -12,7 +12,7 @@ except ImportError:
 
 
 parser = argparse.ArgumentParser(description='Calculate the contributions')
-parser.add_argument('--checkpoint', default='/Users/melody/Downloads/spa_resnet50/model_best.pth.tar',
+parser.add_argument('--checkpoint', default='/home/g1007540910/checkpoints/imagenet/spa_resnet50/model_best.pth.tar',
                     type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 args = parser.parse_args()
