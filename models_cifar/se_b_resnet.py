@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-__all__ = ['SEBResNet18']
+__all__ = ['SEBResNet18','SEBResNet50','SEBResNet101']
 
 class SELayer(nn.Module):
     def __init__(self, inchannel,channel, reduction=16):
