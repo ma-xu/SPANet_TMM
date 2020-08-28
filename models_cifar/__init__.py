@@ -6,6 +6,9 @@ from .ge_resnet import *
 from .spa_b_resnet import *
 from .spa_c_resnet import *
 
+from .se_b_resnet import *
+from .se_c_resnet import *
+
 # MobileNet_v2
 from .se_mobilenetv2 import *
 from .spa_mobilenetv2 import *
