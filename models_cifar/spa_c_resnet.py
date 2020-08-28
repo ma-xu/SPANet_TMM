@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.parameter import Parameter
 
-__all__ = ['SPACResNet18']
+__all__ = ['SPACResNet18','SPACResNet50','SPACResNet101']
 
 class SPACLayer(nn.Module):
     def __init__(self, inchannel,channel, reduction=16):
