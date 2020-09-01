@@ -1,3 +1,5 @@
+# TO be updated
+
 ## Results on CIFAR100
 The table prvoides the models and results of various models on CIFAR100. 
 Learning rate =0.1 and will be divided by 10 every 70 epochs. Total 300 epochs.
