@@ -103,3 +103,15 @@ python3 cifar.py --netName=SPAResNet18 --cifar=100 --bs=512
 python3 count_Param.py
 ```
 
+
+## Citation
+
+    @inproceedings{SPA2020Xu,
+      title={Spanet: Spatial Pyramid Attention Network for Enhanced Image Recognition},
+      author={Guo, Jingda and Ma, Xu and Sansom, Andrew and McGuire, Mara and Kalaani, Andrew and Chen, Qi and Tang, Sihai and Yang, Qing and Fu, Song},
+      booktitle={2020 IEEE International Conference on Multimedia and Expo (ICME)},
+      pages={1--6},
+      year={2020},
+      organization={IEEE}
+    }
+
