@@ -1,45 +1,89 @@
-# TO be updated
+## Getting Start
+### Installation
 
-## Results on CIFAR100
-The table prvoides the models and results of various models on CIFAR100. 
-Learning rate =0.1 and will be divided by 10 every 70 epochs. Total 300 epochs.
-Using SGD optimizer, momentum=0.9, weight_decay=5e-4.
-Loss is CrossEntropyLoss.
-Batch-size=512.
+ __1. Download repo__
+ 
+```Bash
+git clone https://github.com/13952522076/Efficient_ImageNet_Classification.git
+cd Efficient_ImageNet_Classification
+```
 
-Model | Parameters| Flops | CIFAR-100 | 
--------|:-------:|:--------:|:--------:|
-[PreActResNet18](https://drive.google.com/open?id=1w2VGpFPDuS9NzcfcGfPUXoEdXwVftFep) |- |- |74.91%
-[PreActResNet50](https://drive.google.com/open?id=1Nz_JmzLxuzefGzekBRoCutDIeRgaKWMY) |- |- |77.39%
-[PreActResNet101](https://drive.google.com/open?id=1gZoIQhJCzSMhN9b6OeoLL_lyxgU5vCVT) |- |- |77.74%
-[SEResNet18](https://drive.google.com/open?id=17Ynt2pLrbew-n2Wu3P8coZ1vTUiV8h3I) |- |- |75.19%
-[SEResNet50](https://drive.google.com/open?id=1ESIH2Vmqk5kP2VMuUd53FtXDiyhV-ZGe) |- |- |77.91%
-[SEResNet101](https://drive.google.com/open?id=1ASubbeI6l3RQR9WAJakqxwOnDGo1iSl9) |- |- |78.03%
-[PSEResNet18](https://drive.google.com/open?id=1ZHYAyjiVsBtpCe7pDp3Ip204UYDpe_aR) |- |- |74.97%
-[PSEResNet50](https://drive.google.com/open?id=1V_-qkfvGorDDzOMEsEb9peHyj-tI2IB2) |- |- |77.45%
-[PSEResNet101](https://drive.google.com/open?id=17zRZipc8Dj32b4iaDcD4J9w-8-tcEfqb) |- |- |77.88%
-[CPSEResNet18](https://drive.google.com/open?id=12Hne8epBFV2YjakHP43PwYSYizdHlG0D) |- |- |75.25%
-[CPSEResNet50](https://drive.google.com/open?id=1axp5bjRTkmkxRd3CGRTP_WwBOcdh74GM) |- |- |77.43%
-[CPSEResNet101](https://drive.google.com/open?id=1MtfiV8vjHNfiXwB6q-AncuTe2Y1dkNxQ) |- |- |77.61%
-[SPPSEResNet18](https://drive.google.com/open?id=1EYcqDd70KHLKC2v_DaZ35qW1SLVzwaqN) |- |- |75.41%
-[SPPSEResNet50](https://drive.google.com/open?id=1xEMjxxOe3X3-fOvU9wdxJWtoPoFA74T_) |- | |78.21%
-[SPPSEResNet101](https://drive.google.com/open?id=1H5gpBjWSnf4RbaZg2tdJ5LJRMTSLCxgP) |- |- |78.11
-[PSPPSEResNet18](https://drive.google.com/open?id=1h-d4b1qaGgzxu8_yPlwrVu-BIN9ZUbNo) |- |- |75.01%
-[PSPPSEResNet50](https://drive.google.com/open?id=11-4nxqOE9_cYwC6iR8DUHSln0z5nwoTD) |- |- |78.11%
-[PSPPSEResNet101](https://drive.google.com/open?id=134ZG8H0TY545MArhon1A8YKEZcOrPB9y) |- |- |78.35%
-[CPSPPSEResNet18](https://drive.google.com/open?id=1G1vPvLYFCTCq7nE4TQFTiwIthKFE9yso) |- |- |75.56%
-[CPSPPSEResNet50](https://drive.google.com/open?id=1tVB-ml5JUnmGMqw7mToPxhmkjoaCkRE2) |- |- |77.95%
-[CPSPPSEResNet101](https://drive.google.com/file/d/1M3OXCflFFZ9E8jvMxYTqq0s2TZFiAvWy/view) |- |- |79.17%
+__2. Requirements__
+
+- Python3.6
+- PyTorch 1.3+
+- CUDA 10+
+- GCC 5.0+
+```Bash
+pip install -r requirements.txt
+```
+__3. Install DALI and Apex__
+
+DALI Installation:
+```Bash
+cd ~
+# For CUDA10
+pip install --extra-index-url https://developer.download.nvidia.com/compute/redist nvidia-dali-cuda100
+# or
+# For CUDA11
+pip install --extra-index-url https://developer.download.nvidia.com/compute/redist nvidia-dali-cuda110
+```
+For more details, please see [Nvidia DALI installation](https://docs.nvidia.com/deeplearning/dali/user-guide/docs/installation.html).
 
 
-For a better understanding, we reschedule the table as follows:
+Apex Installation:
+```Bash
+cd ~
+git clone https://github.com/NVIDIA/apex
+cd apex
+pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
+```
+For more details, please see [Apex](https://github.com/NVIDIA/apex) or [Apex Full API documentation](https://nvidia.github.io/apex/).
 
-Model | 18-Layer| 50-Layer | 101-Layer | 
--------|:-------:|:--------:|:--------:|
-PreActResNet    |74.91% |77.39% |77.74%
-SEResNet        |75.19% |77.91% |78.03%
-PSEResNet       |74.97% |77.45% |77.88%
-CPSEResNet      |75.25% |77.43% |77.61%
-SPPSEResNet     |75.41% |`78.21%`|78.11%
-PSPPSEResNet    |75.01% |78.11% |78.35%
-CPSPPSEResNet   |`75.56%`|77.95% |`79.17%`
+
+<!--__Prepare ImageNet dataset__-->
+
+<!--```Bash-->
+<!--cd ~-->
+<!--cd Efficient_ImageNet_Classification-->
+<!--mkdir data-->
+<!--cd data-->
+<!--# Replace PATH_TO_ImageNet to your ImageNet dataset path-->
+<!--ln -s PATH_TO_ImageNet imagenet-->
+<!--```-->
+
+## Training & Testing
+We provide two training strategies: step_lr schedular and cosine_lr schedular in [main_step.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/main_step.py) and [main_cosine.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/main_cosine.py) respectively.
+
+The training models (last one and best one) and the log file  are saved in "checkpoints/imagenet/`model_name`" by default.
+***
+
+I personally suggest to manually setup the path to imagenet dataset in [main_step.py (line 49)](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/f6218ccc0992458909460c095795d9aca3e48c18/main_step.py#L49) 
+and [main_cosine.py (line 50)](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/f6218ccc0992458909460c095795d9aca3e48c18/main_cosine.py#L50).
+Replace the default value to your real PATH.
+
+Or you can add a parameter `--data` in the following training command.
+
+
+**For the step learning rate schedular, run follwing commands**
+```Bash
+# change the parameters accordingly if necessary
+# e.g, If you have 4 GPUs, set the nproc_per_node to 4. If you want to train with 32FP, remove ----fp16.
+python3 -m torch.distributed.launch --nproc_per_node=8 main_step.py -a old_resnet50 --fp16 --b 32
+```
+**For the cosine learning rate schedular, run follwing commands**
+```Bash
+# change the parameters accordingly if necessary
+python3 -m torch.distributed.launch --nproc_per_node=8 main_cosine.py -a old_resnet18 --b 64 --opt-level O0
+```
+## Add New Models
+Please follow the same coding style in [models/resnet.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/models/resnet.py). 
+
+1. Add a new model file in folder [models](https://github.com/13952522076/Efficient_ImageNet_Classification/tree/master/models)
+2. Import the model file in model package, say [models/__init__.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/models/__init__.py)
+
+## Calculate Parameters and FLOPs
+```Bash
+python3 count_Param.py
+```
+
