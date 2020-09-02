@@ -1,4 +1,5 @@
-# 
+# Spatial Pyramid Attention for Deep Convolutional Neural Networks
+[Xu Ma](https://13952522076.github.io/), Jingda Guo, Andrew Sansom, Mara McGuire, Andrew Kalaani, Qi Chen, Sihai Tang, [Qing Yang](https://www.cse.unt.edu/~qingyang/), [Song Fu*](https://www.cse.unt.edu/~song/)
 
 ## Getting Start
 ### Installation
@@ -78,12 +79,6 @@ python3 -m torch.distributed.launch --nproc_per_node=8 main_step.py -a old_resne
 # change the parameters accordingly if necessary
 python3 -m torch.distributed.launch --nproc_per_node=8 main_cosine.py -a old_resnet18 --b 64 --opt-level O0
 ```
-## Add New Models
-Please follow the same coding style in [models/resnet.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/models/resnet.py). 
-
-1. Add a new model file in folder [models](https://github.com/13952522076/Efficient_ImageNet_Classification/tree/master/models)
-2. Import the model file in model package, say [models/__init__.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/models/__init__.py)
-
 ## Calculate Parameters and FLOPs
 ```Bash
 python3 count_Param.py
