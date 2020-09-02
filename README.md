@@ -1,11 +1,13 @@
+# 
+
 ## Getting Start
 ### Installation
 
  __1. Download repo__
  
 ```Bash
-git clone https://github.com/13952522076/Efficient_ImageNet_Classification.git
-cd Efficient_ImageNet_Classification
+git clone https://github.com/13952522076/SPANet_TMM.git
+cd SPANet_TMM
 ```
 
 __2. Requirements__
@@ -17,7 +19,7 @@ __2. Requirements__
 ```Bash
 pip install -r requirements.txt
 ```
-__3. Install DALI and Apex__
+__3. Install DALI and Apex （For ImageNet Training）__
 
 DALI Installation:
 ```Bash
