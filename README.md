@@ -2,7 +2,7 @@
 [Xu Ma](https://13952522076.github.io/), Jingda Guo, Andrew Sansom, Mara McGuire, Andrew Kalaani, Qi Chen, Sihai Tang, [Qing Yang](https://www.cse.unt.edu/~qingyang/), [Song Fu*](https://www.cse.unt.edu/~song/)
 
 
-## SPAA module
+## SPA module
 
 ![SPA_module](figures/spanet.jpg)
 
