@@ -61,14 +61,14 @@ For more details, please see [Apex](https://github.com/NVIDIA/apex) or [Apex Ful
 <!--ln -s PATH_TO_ImageNet imagenet-->
 <!--```-->
 
-## Training & Testing
-We provide two training strategies: step_lr schedular and cosine_lr schedular in [main_step.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/main_step.py) and [main_cosine.py](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/master/main_cosine.py) respectively.
+## Training & Testing ImageNet
+We provide two training strategies: step_lr schedular and cosine_lr schedular in [main.py](https://github.com/13952522076/SPANet_TMM/blob/master/main.py) and [main_mobile.py](https://github.com/13952522076/SPANet_TMM/blob/master/main_mobile.py) respectively.
 
 The training models (last one and best one) and the log file  are saved in "checkpoints/imagenet/`model_name`" by default.
 ***
 
-I personally suggest to manually setup the path to imagenet dataset in [main_step.py (line 49)](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/f6218ccc0992458909460c095795d9aca3e48c18/main_step.py#L49) 
-and [main_cosine.py (line 50)](https://github.com/13952522076/Efficient_ImageNet_Classification/blob/f6218ccc0992458909460c095795d9aca3e48c18/main_cosine.py#L50).
+I personally suggest to manually setup the path to imagenet dataset in [main.py (line 49)](https://github.com/13952522076/SPANet_TMM/blob/fbe4f4911225c094aac175ac597dafe6168fd50d/main.py#L49) 
+and [main_mobile.py (line 50)](https://github.com/13952522076/SPANet_TMM/blob/fbe4f4911225c094aac175ac597dafe6168fd50d/main_mobile.py#L50).
 Replace the default value to your real PATH.
 
 Or you can add a parameter `--data` in the following training command.
@@ -78,13 +78,26 @@ Or you can add a parameter `--data` in the following training command.
 ```Bash
 # change the parameters accordingly if necessary
 # e.g, If you have 4 GPUs, set the nproc_per_node to 4. If you want to train with 32FP, remove ----fp16.
-python3 -m torch.distributed.launch --nproc_per_node=8 main_step.py -a old_resnet50 --fp16 --b 32
+python3 -m torch.distributed.launch --nproc_per_node=8 main.py -a spa_resnet50 --fp16 --b 32
 ```
 **For the cosine learning rate schedular, run follwing commands**
 ```Bash
 # change the parameters accordingly if necessary
-python3 -m torch.distributed.launch --nproc_per_node=8 main_cosine.py -a old_resnet18 --b 64 --opt-level O0
+python3 -m torch.distributed.launch --nproc_per_node=8 main_mobile.py -a spa_resnet18 --b 64 --opt-level O0
 ```
+
+## Training & Testing Downsampled ImageNet
+```Bash
+python3 downsample.py --netName=SPAResNet18 --bs=512
+```
+
+## Training & Testing CIFAR
+```Bash
+python3 cifar.py --netName=SPAResNet18 --cifar=100 --bs=512
+```
+
+
+
 ## Calculate Parameters and FLOPs
 ```Bash
 python3 count_Param.py
