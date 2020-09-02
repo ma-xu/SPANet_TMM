@@ -15,7 +15,7 @@ from .spa_mobilenetv2 import *
 from .ge_mobilenetv2 import *
 from .old_mobilenetv2 import *
 from .spa2_mobilenetv2 import *
-from .spa3_mobilenetv2 import *
+from .spa_a_mobilenetv2 import *
 from .spa4_mobilenetv2 import *
 from .spa_b_mobilenetv2 import *
 from .spa_c_mobilenetv2 import *
