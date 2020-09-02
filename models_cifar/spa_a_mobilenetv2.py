@@ -10,9 +10,9 @@ from torch.nn.parameter import Parameter
 __all__ =['SPA3MobileNetV2']
 
 
-class SPA3Layer(nn.Module):
+class SPAALayer(nn.Module):
     def __init__(self, channel, reduction=16):
-        super(SPA3Layer, self).__init__()
+        super(SPAALayer, self).__init__()
         self.avg_pool1 = nn.AdaptiveAvgPool2d(1)
         self.avg_pool2 = nn.AdaptiveAvgPool2d(2)
         self.avg_pool4 = nn.AdaptiveAvgPool2d(4)
@@ -57,7 +57,7 @@ class Block(nn.Module):
         self.conv3 = nn.Conv2d(planes, out_planes, kernel_size=1, stride=1, padding=0, bias=False)
         self.bn3 = nn.BatchNorm2d(out_planes)
 
-        self.SPA3 = SPA3Layer(out_planes)
+        self.SPA3 = SPAALayer(out_planes)
 
         self.shortcut = nn.Sequential()
         if stride == 1 and in_planes != out_planes:
@@ -75,7 +75,7 @@ class Block(nn.Module):
         return out
 
 
-class SPA3MobileNetV2(nn.Module):
+class SPAAMobileNetV2(nn.Module):
     # (expansion, out_planes, num_blocks, stride)
     cfg = [(1,  16, 1, 1),
            (6,  24, 2, 1),  # NOTE: change stride 2 -> 1 for CIFAR10
@@ -86,7 +86,7 @@ class SPA3MobileNetV2(nn.Module):
            (6, 320, 1, 1)]
 
     def __init__(self, num_classes=10):
-        super(SPA3MobileNetV2, self).__init__()
+        super(SPAAMobileNetV2, self).__init__()
         # NOTE: change conv1 stride 2 -> 1 for CIFAR10
         self.conv1 = nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(32)
@@ -116,7 +116,7 @@ class SPA3MobileNetV2(nn.Module):
 
 
 def demo():
-    net = SPA3MobileNetV2(num_classes=100)
+    net = SPAAMobileNetV2(num_classes=100)
     x = torch.randn(2,3,32,32)
     y = net(x)
     print(y.size())
